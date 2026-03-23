@@ -331,9 +331,11 @@ const ALLEN_CTX=`你是 Allen 的工作领导，他的背景如下：
 
 // ── AI 调用 ───────────────────────────
 async function callAI(messages){
+  const k=['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'].join('');
   const resp=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:ALLEN_CTX,messages})
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:ALLEN_CTX,messages})
   });
   const data=await resp.json();
   return data.content?.map(c=>c.text||'').join('')||'（生成失败，请重试）';
