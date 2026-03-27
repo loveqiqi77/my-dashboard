@@ -244,7 +244,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="tab"    onclick="sw('week',this)">本周日程</div>
   <div class="tab"    onclick="sw('month',this)">月度看板</div>
   <div class="tab"    onclick="sw('pomo',this)">番茄时钟</div>
-  <div class="tab"    onclick="sw('news',this)">行业资讯</div>
   <div class="tab"    onclick="sw('note',this)">手写板</div>
 </div>
 <div class="pages">
@@ -720,13 +719,13 @@ window.openCatManager=()=>{renderCatManager();document.getElementById('catModal'
 
 // ── 今日清单 ──────────────────────────
 const DEFAULT_PLAN={
-  1:[{text:'更新《大家都在玩》周活数据',pri:'must',cat:'work'},{text:'更新客户端各平台版本周活数据',pri:'must',cat:'work'},{text:'更新推广员数据表格',pri:'must',cat:'work'},{text:'检查推广二维码 & 微信跳转链接',pri:'must',cat:'work'},{text:'准备例会发言要点',pri:'normal',cat:'work'},{text:'晚9点 Manager 例会',pri:'must',cat:'work'}],
-  2:[{text:'分析周活，判断是否开启升级',pri:'must',cat:'work'},{text:'回复 Telegram 推广咨询',pri:'must',cat:'work'},{text:'阅读1篇行业文章做笔记',pri:'growth',cat:'study'}],
-  3:[{text:'制作推广员结算表格',pri:'must',cat:'work'},{text:'执行版本升级（如已决定）',pri:'must',cat:'work'},{text:'回复 Telegram 推广咨询',pri:'must',cat:'work'},{text:'配合 Fiona 验证测试文章',pri:'normal',cat:'work'},{text:'结算记录归档',pri:'growth',cat:'work'}],
-  4:[{text:'回复 Telegram 推广咨询',pri:'must',cat:'work'},{text:'配合 Fiona 上线大家都在玩',pri:'normal',cat:'work'},{text:'推进升级规范SOP',pri:'growth',cat:'study'}],
-  5:[{text:'回复 Telegram 推广咨询',pri:'must',cat:'work'},{text:'选好下周 YouTube 视频',pri:'normal',cat:'work'},{text:'本周复盘',pri:'normal',cat:'work'},{text:'备好下周一例会数据',pri:'normal',cat:'work'}],
-  6:[{text:'周六 · 休息',pri:'normal',cat:'life'}],
-  0:[{text:'周日 · 休息',pri:'normal',cat:'life'}],
+  1:[{text:'制定本周工作计划',pri:'must',cat:'work'},{text:'处理邮件和消息',pri:'must',cat:'work'},{text:'晨间锻炼 30 分钟',pri:'normal',cat:'life'},{text:'阅读 20 分钟',pri:'growth',cat:'study'}],
+  2:[{text:'推进本周核心工作任务',pri:'must',cat:'work'},{text:'学习一个新知识点并记录',pri:'growth',cat:'study'},{text:'午后散步 15 分钟',pri:'normal',cat:'life'}],
+  3:[{text:'处理邮件和消息',pri:'must',cat:'work'},{text:'核对本周进度',pri:'normal',cat:'work'},{text:'锻炼 30 分钟',pri:'normal',cat:'life'},{text:'整理学习笔记',pri:'growth',cat:'study'}],
+  4:[{text:'推进本周核心工作任务',pri:'must',cat:'work'},{text:'阅读 20 分钟',pri:'growth',cat:'study'},{text:'准备明日工作计划',pri:'normal',cat:'work'}],
+  5:[{text:'本周工作复盘',pri:'must',cat:'work'},{text:'整理下周计划',pri:'normal',cat:'work'},{text:'锻炼 30 分钟',pri:'normal',cat:'life'},{text:'放松娱乐时间',pri:'normal',cat:'fun'}],
+  6:[{text:'锻炼或户外活动',pri:'normal',cat:'life'},{text:'阅读或学习 1 小时',pri:'growth',cat:'study'},{text:'陪伴家人或朋友',pri:'normal',cat:'fun'}],
+  0:[{text:'充分休息，恢复精力',pri:'normal',cat:'life'},{text:'规划下周目标',pri:'normal',cat:'work'},{text:'兴趣爱好时间',pri:'normal',cat:'fun'}],
 };
 let dailyItems=[];
 const DAILY_KEY=()=>'daily_'+new Date().toISOString().split('T')[0];
@@ -871,7 +870,13 @@ function initSchedules(){
   schedules=LS('schedules',null);
   if(!schedules){
     schedules={};
-    const base={1:[{slot:'am',text:'更新三张数据表格',pri:'must'},{slot:'am',text:'检查二维码 & 推广链接',pri:'must'},{slot:'pm',text:'回复 Telegram 消息',pri:'must'},{slot:'eve',text:'晚9点 Manager 例会',pri:'must'}],2:[{slot:'am',text:'分析周活，决定升级',pri:'must'},{slot:'pm',text:'回复 TG 咨询',pri:'must'},{slot:'pm',text:'阅读行业文章',pri:'growth'}],3:[{slot:'am',text:'制作结算表格',pri:'must'},{slot:'am',text:'执行版本升级',pri:'must'},{slot:'pm',text:'配合 Fiona 验证文章',pri:'normal'},{slot:'pm',text:'结算记录归档',pri:'growth'}],4:[{slot:'am',text:'回复 TG 消息',pri:'must'},{slot:'pm',text:'验证并上线内容',pri:'normal'},{slot:'pm',text:'推进升级规范 SOP',pri:'growth'}],5:[{slot:'am',text:'选下周 YouTube 视频',pri:'normal'},{slot:'pm',text:'本周复盘',pri:'normal'},{slot:'pm',text:'备好下周例会数据',pri:'normal'}]};
+    const base={
+      1:[{slot:'am',text:'处理邮件和消息',pri:'must'},{slot:'am',text:'制定本周计划',pri:'must'},{slot:'pm',text:'推进核心工作任务',pri:'must'},{slot:'pm',text:'晨间锻炼 30 分钟',pri:'normal'}],
+      2:[{slot:'am',text:'推进核心工作任务',pri:'must'},{slot:'pm',text:'学习新知识点',pri:'growth'},{slot:'pm',text:'午后散步',pri:'normal'}],
+      3:[{slot:'am',text:'处理邮件和消息',pri:'must'},{slot:'am',text:'核对本周进度',pri:'normal'},{slot:'pm',text:'锻炼 30 分钟',pri:'normal'},{slot:'pm',text:'整理学习笔记',pri:'growth'}],
+      4:[{slot:'am',text:'推进核心工作任务',pri:'must'},{slot:'pm',text:'阅读 20 分钟',pri:'growth'},{slot:'pm',text:'准备明日计划',pri:'normal'}],
+      5:[{slot:'am',text:'本周工作复盘',pri:'must'},{slot:'pm',text:'整理下周计划',pri:'normal'},{slot:'pm',text:'锻炼 30 分钟',pri:'normal'}],
+    };
     Object.entries(base).forEach(([d,items])=>{schedules[d]=items.map((t,i)=>({id:Date.now()+parseInt(d)*100+i,...t,note:''}));});
     SS('schedules',schedules);
   }
@@ -920,7 +925,12 @@ window.delSlot=(dow,id)=>{schedules[dow]=(schedules[dow]||[]).filter(it=>String(
 let reminders=[];
 let editingReminderId=null;
 function initReminders(){
-  reminders=LS('reminders',[{id:1,time:'周一晚9点',text:'Manager 例会，提前更新数据表格'},{id:2,time:'周三',text:'推广员结算 + 评估版本升级'},{id:3,time:'每天',text:'检查推广二维码 & 微信跳转链接'},{id:4,time:'随时',text:'Telegram 推广咨询不超24小时回复'}]);
+  reminders=LS('reminders',[
+    {id:1,time:'每天早上',text:'喝一杯水，做 5 分钟拉伸'},
+    {id:2,time:'每周一',text:'制定本周目标和计划'},
+    {id:3,time:'每周五',text:'复盘本周完成情况'},
+    {id:4,time:'每天晚上',text:'整理明日待办清单'},
+  ]);
 }
 function renderReminders(){
   const el=document.getElementById('reminderList');if(!el)return;
@@ -944,7 +954,12 @@ window.delReminder=(id)=>{reminders=reminders.filter(r=>r.id!==id);SS('reminders
 // ── 待办 ──────────────────────────────
 let todos=[];
 function daysLater(n){const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().split('T')[0];}
-function initTodos(){todos=LS('todos',[{id:1,text:'方向三：升级规范SOP初稿',due:daysLater(7),pri:'growth',cat:'work',done:false},{id:2,text:'整理推广员名单（方向一启动）',due:daysLater(14),pri:'growth',cat:'work',done:false},{id:3,text:'本周例会数据更新',due:daysLater(0),pri:'must',cat:'work',done:false}]);}
+function initTodos(){todos=LS('todos',[
+  {id:1,text:'制定本月学习计划',due:daysLater(3),pri:'must',cat:'study',done:false},
+  {id:2,text:'每周锻炼 3 次',due:daysLater(7),pri:'normal',cat:'life',done:false},
+  {id:3,text:'读完一本书',due:daysLater(30),pri:'growth',cat:'study',done:false},
+  {id:4,text:'整理工作文档',due:daysLater(5),pri:'normal',cat:'work',done:false},
+]);}
 function renderTodos(){
   const today=new Date().toISOString().split('T')[0];
   const sorted=[...todos].sort((a,b)=>{if(a.done!==b.done)return a.done?1:-1;if(!a.due&&!b.due)return 0;if(!a.due)return 1;if(!b.due)return -1;return a.due<b.due?-1:1;});
